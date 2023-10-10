@@ -6,15 +6,13 @@ import Login from "@pages/login";
 import { getLocalUser } from "@/utils";
 import { useDispatchUser, useStateUserInfo } from "@/store/hooks";
 
-const isHash = process.env.REACT_APP_ROUTER_ISHASH === "1"
-const RouterBasename = process.env.REACT_APP_ROUTERBASE || "/"
-
+const isHash = process.env.REACT_APP_ROUTER_ISHASH === "1";
+const RouterBasename = process.env.REACT_APP_ROUTERBASE || "/";
 
 export default function AppRouter() {
   const [loading, setLoad] = useState(true);
-  const { stateSetUser } = useDispatchUser()
-  const userInfo = useStateUserInfo()
-
+  const { stateSetUser } = useDispatchUser();
+  const userInfo = useStateUserInfo();
 
   useEffect(() => {
     if (!userInfo) {
@@ -35,9 +33,11 @@ export default function AppRouter() {
     );
   if (!userInfo) return <Login />;
   if (isHash) {
-    return <HashRouter basename={RouterBasename}>
-      <Layout />
-    </HashRouter>
+    return (
+      <HashRouter basename={RouterBasename}>
+        <Layout />
+      </HashRouter>
+    );
   }
   return (
     <BrowserRouter basename={RouterBasename}>

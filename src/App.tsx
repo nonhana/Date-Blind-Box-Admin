@@ -5,10 +5,10 @@ import LayoutSet from "./components/layout-set";
 const AppRouter = loadable(() => import("./router/appRouter"));
 function Theme() {
   if (process.env.showColorSet) {
-    const Com = loadable(() => import("@/components/theme"))
-    return <Com />
+    const Com = loadable(() => import("@/components/theme"));
+    return <Com />;
   }
-  return null
+  return null;
 }
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <AppRouter />
       <Theme />
       <LayoutSet />
-    </Provider >
+    </Provider>
   );
 }
 export default App;

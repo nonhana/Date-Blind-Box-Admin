@@ -1,21 +1,19 @@
-
 const devConfig = {
   PORT: 3000, // 启动端口
   HOST: "0.0.0.0", // 监听地址
   NODE_ENV: "development", // 开发者模式
   REACT_APP_ROUTERBASE: "/react-ant-admin", // react路由基础路径
   REACT_APP_API_BASEURL: "http://127.0.0.1:8081/api/react-ant-admin", //请求地址
-  PUBLIC_URL: "/react-ant-admin",// 静态文件路径
-}
+  PUBLIC_URL: "/react-ant-admin", // 静态文件路径
+};
 const productionCfg = {
   REACT_APP_ROUTERBASE: "/react-ant-admin", // react路由基础路径
   REACT_APP_API_BASEURL: "/api/react-ant-admin", //请求地址
-  PUBLIC_URL: "/react-ant-admin",// 静态文件路径
+  PUBLIC_URL: "/react-ant-admin", // 静态文件路径
   NODE_ENV: "production", // 打包模式 生产模式
   BUILD_PATH: "react-ant-admin", // 打包 文件夹名称
-}
+};
 module.exports = Promise.resolve({
-
   // 本地接口正常运行 没有mock 没有 主题色
   development: devConfig,
 
@@ -59,7 +57,7 @@ module.exports = Promise.resolve({
     ...productionCfg,
     COLOR: "true",
     REACT_APP_API_BASEURL: "https://azhengpersonalblog.top/api/react-ant-admin",
-    REACT_APP_ROUTER_ISHASH: "1", // 启用哈希模式 
-    REACT_APP_ROUTERBASE: "/"
-  }
-})
+    REACT_APP_ROUTER_ISHASH: "1", // 启用哈希模式
+    REACT_APP_ROUTERBASE: "/",
+  },
+});
