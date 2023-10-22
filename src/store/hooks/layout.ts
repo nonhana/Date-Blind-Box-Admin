@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeLayoutMode } from "../action";
 import { getStateLayout } from "../getters";
 
-export const useStateLayout = () => useSelector(getStateLayout)
+export const useStateLayout = () => useSelector(getStateLayout);
 
 export function useDispatchLayout() {
-  const dispatch = useDispatch()
-  const stateChangeLayout = useCallback((mode: LayoutMode) => dispatch(changeLayoutMode(mode)), [dispatch])
+  const dispatch = useDispatch();
+  const stateChangeLayout = useCallback(
+    (mode: LayoutMode) => dispatch(changeLayoutMode(mode)),
+    [dispatch]
+  );
   return {
-    stateChangeLayout
-  }
+    stateChangeLayout,
+  };
 }

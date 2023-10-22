@@ -19,13 +19,13 @@ import MyIcon from "../icon";
 import arrayMove from "array-move";
 import { getKey, setKey, rmKey } from "@/utils";
 import "./index.less";
-import { MyTableProps, Columns, renderArugs, Column } from "./types"
+import { MyTableProps, Columns, renderArugs, Column } from "./types";
 
 const DragHandle = SortableHandle(() => (
   <MyIcon type="icon_mirrorlightctrl" className="drag-sort" />
 ));
 const SortableItem = SortableElement((props: any) => <tr {...props} />);
-const SortableBody = SortableContainer((props: any) => <tbody  {...props} />);
+const SortableBody = SortableContainer((props: any) => <tbody {...props} />);
 
 const setColTitle: Columns = [
   {
@@ -98,7 +98,6 @@ const defaultCol: Omit<Column, "dataIndex"> = {
   hidden: "auto",
 };
 
-
 function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
   const [showDrawer, setShowDrawer] = useState(false);
   const [col, setCol] = useState<Columns>([]);
@@ -117,7 +116,7 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
     return <SortableItem index={index} {...restProps} />;
   };
   useEffect(() => {
-    const data: Columns = getKey(true, saveKey || '');
+    const data: Columns = getKey(true, saveKey || "");
     if (saveKey && data && columns && columns.length === data.length) {
       const columnInfo: any = {},
         dataInfo: any = {};
@@ -138,9 +137,9 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
         initDefaultCol();
       }
     } else if (!data && columns && columns.length !== col.length) {
-      initDefaultCol()
+      initDefaultCol();
     }
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
   }, [saveKey, columns]);
 
   useEffect(() => {
@@ -209,12 +208,15 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
   function show() {
     setShowDrawer(true);
   }
-  function onSortEnd({ oldIndex, newIndex }: {
-    oldIndex: number
-    newIndex: number
+  function onSortEnd({
+    oldIndex,
+    newIndex,
+  }: {
+    oldIndex: number;
+    newIndex: number;
   }) {
     if (oldIndex !== newIndex) {
-      const arr: Array<Columns> = []
+      const arr: Array<Columns> = [];
       const newData = arrayMove(arr.concat(col), oldIndex, newIndex).filter(
         (el) => !!el
       );
@@ -263,7 +265,7 @@ function UseTable(columns: Columns, saveKey: MyTableProps["saveKey"]) {
     DraggableContainer,
     DraggableBodyRow,
     saveTbSet,
-    delTbSet
+    delTbSet,
   };
 }
 
@@ -284,9 +286,8 @@ function MyTable({
     DraggableContainer,
     DraggableBodyRow,
     saveTbSet,
-    delTbSet
+    delTbSet,
   } = UseTable(columns, saveKey);
-
   return (
     <div className="react-ant-table">
       <Row className="set" justify="end">

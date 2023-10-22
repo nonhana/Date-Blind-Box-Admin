@@ -3,16 +3,21 @@ import { Row, Pagination } from "antd";
 import "./index.less";
 const pageSizeOptions = ["10", "20", "50", "100"];
 
-export type PageInfo = { page: number, pagesize?: number | string }
+export type PageInfo = { page: number; pagesize?: number | string };
 
 interface PaginationProps {
-  total: number
-  page: number
-  change: (p: PageInfo) => void
-  immediately?: (p: PageInfo) => void
+  total: number;
+  page: number;
+  change: (p: PageInfo) => void;
+  immediately?: (p: PageInfo) => void;
 }
 
-export default function MyPagination({ total, page = 1, change, immediately }: PaginationProps) {
+export default function MyPagination({
+  total,
+  page = 1,
+  change,
+  immediately,
+}: PaginationProps) {
   const [pagesize, setSize] = useState<string>(pageSizeOptions[0]);
   useEffect(() => {
     if (typeof immediately === "function") {
@@ -21,7 +26,7 @@ export default function MyPagination({ total, page = 1, change, immediately }: P
     // eslint-disable-next-line
   }, []);
   const pageChange = (page: number, pagesize?: number) => {
-    setSize(pagesize + '' || pageSizeOptions[0]);
+    setSize(pagesize + "" || pageSizeOptions[0]);
     if (typeof change === "function") {
       change({ page, pagesize });
     }

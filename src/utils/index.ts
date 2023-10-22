@@ -1,5 +1,13 @@
-import { getMenus, } from "@/common";
-import { MenuItem, MenuList, UserInfo, LayoutMode, MenuResponse, State, MenuMap } from "@/types"
+import { getMenus } from "@/common";
+import {
+  MenuItem,
+  MenuList,
+  UserInfo,
+  LayoutMode,
+  MenuResponse,
+  State,
+  MenuMap,
+} from "@/types";
 export const USER_INFO = "USER_INFO";
 export const TOKEN = "admin_token";
 export const MENU = "MENU";
@@ -7,11 +15,11 @@ export const VISIBLE = "COMPONENTS_VISIBLE";
 export const LAYOUT_MODE = "LAYOUT_MODE";
 
 interface MenuOpenData {
-  openKeys: string[]
-  selectKey: string[]
-  openedMenu: MenuItem[]
+  openKeys: string[];
+  selectKey: string[];
+  openedMenu: MenuItem[];
 }
-type Token = string | null | undefined
+type Token = string | null | undefined;
 
 // 获取默认页面
 async function getDefaultMenu(): Promise<MenuOpenData> {
@@ -20,10 +28,10 @@ async function getDefaultMenu(): Promise<MenuOpenData> {
     openedMenu: MenuItem[] = [];
   const menuList = await getMenus();
   menuList.some((list) => {
-    const child = list[MENU_CHILDREN]
+    const child = list[MENU_CHILDREN];
     if (child && child.length) {
-      openKeys = [(list[MENU_KEY] as string)];
-      selectKey = [(child[0][MENU_KEY] as string)];
+      openKeys = [list[MENU_KEY] as string];
+      selectKey = [child[0][MENU_KEY] as string];
       openedMenu = [child[0]];
       return true;
     }
@@ -56,13 +64,12 @@ function getLocalUser() {
   return getKey(true, USER_INFO);
 }
 
-
 function getMenuParentKey(list: MenuList, key: string): string[] {
   const keys = [];
   const info = list.find((item) => item[MENU_KEY] === key);
   let parentKey = info?.[MENU_PARENTKEY];
   if (parentKey) {
-    const data = getMenuParentKey(list, parentKey)
+    const data = getMenuParentKey(list, parentKey);
     keys.push(...data);
     keys.push(parentKey);
   }
@@ -70,7 +77,7 @@ function getMenuParentKey(list: MenuList, key: string): string[] {
 }
 
 export function formatMenu(list: MenuList) {
-  const newList = list.map(item => ({ ...item }))
+  const newList = list.map((item) => ({ ...item }));
   const menuMap: MenuMap = {};
   const parentMenu: MenuList = [];
   newList.forEach((item) => {
@@ -112,8 +119,7 @@ export function formatMenu(list: MenuList) {
   return parentMenu;
 }
 
-
-function reduceMenuList(list: MenuList, path: string = ''): MenuList {
+function reduceMenuList(list: MenuList, path: string = ""): MenuList {
   const data: MenuList = [];
   list.forEach((i) => {
     const { children, ...item } = i;
@@ -136,11 +142,11 @@ function saveLocalMenu(list: MenuResponse) {
 }
 
 function saveToken(token: Token) {
-  setKey(true, TOKEN, token)
+  setKey(true, TOKEN, token);
 }
 
 function getToken(): Token {
-  return getKey(true, TOKEN)
+  return getKey(true, TOKEN);
 }
 
 function getKey(isLocal: boolean, key: string) {
@@ -180,6 +186,41 @@ function setCompVisible(val: State["componentsVisible"]) {
   return setKey(true, VISIBLE, val);
 }
 
+// 将 Date 对象格式化为指定格式的字符串
+interface DateFormatOptions {
+  year?: string;
+  month?: string;
+  day?: string;
+  hour?: string;
+  minute?: string;
+  second?: string;
+}
+const formatDate = (
+  dateInput: Date | string | number,
+  format: string = "YYYY-MM-DD HH:mm:ss"
+): string => {
+  const date = new Date(dateInput);
+  const formatOptions: DateFormatOptions = {
+    year: date.getFullYear().toString(),
+    month: (date.getMonth() + 1).toString().padStart(2, "0"),
+    day: date.getDate().toString().padStart(2, "0"),
+    hour: date.getHours().toString().padStart(2, "0"),
+    minute: date.getMinutes().toString().padStart(2, "0"),
+    second: date.getSeconds().toString().padStart(2, "0"),
+  };
+
+  let formattedDate = format;
+
+  formattedDate = formattedDate.replace(/YYYY/g, formatOptions.year ?? "");
+  formattedDate = formattedDate.replace(/MM/g, formatOptions.month ?? "");
+  formattedDate = formattedDate.replace(/DD/g, formatOptions.day ?? "");
+  formattedDate = formattedDate.replace(/HH/g, formatOptions.hour ?? "");
+  formattedDate = formattedDate.replace(/mm/g, formatOptions.minute ?? "");
+  formattedDate = formattedDate.replace(/ss/g, formatOptions.second ?? "");
+
+  return formattedDate;
+};
+
 export {
   getDefaultMenu,
   getSessionUser,
@@ -201,4 +242,5 @@ export {
   clearLocalDatas,
   getCompVisible,
   setCompVisible,
+  formatDate,
 };

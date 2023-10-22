@@ -1,21 +1,37 @@
 import dayjs from "dayjs";
 import { message } from "antd";
-import { PowerApi, LoginApi, ResponseData, MenuInfoApi, MessageList, MessageAPi, MenuResponse, MenuList, MenuItem } from "@/types"
+import {
+  PowerApi,
+  LoginApi,
+  ResponseData,
+  MenuInfoApi,
+  MessageList,
+  MessageAPi,
+  MenuResponse,
+  MenuList,
+  MenuItem,
+} from "@/types";
 import { formatMenu } from "@/utils";
 
 type MockDataType = {
-  "/getmenu": MenuResponse
-  "/getpower": PowerApi
-  "/login": LoginApi
-  "/addmenu": ResponseData
-  "/addmessage": ResponseData
-  "/getmessage": MessageAPi
-  "/delmenu": ResponseData
-  "/getmenuinfo": ResponseData & { data: MenuItem | null }
-  "/editmenuinfo": ResponseData
-  "/getvisitordata": ResponseData
-  [key: string]: ResponseData | MenuList | PowerApi | LoginApi | MenuInfoApi | MenuResponse
-}
+  "/getmenu": MenuResponse;
+  "/getpower": PowerApi;
+  "/login": LoginApi;
+  "/addmenu": ResponseData;
+  "/addmessage": ResponseData;
+  "/getmessage": MessageAPi;
+  "/delmenu": ResponseData;
+  "/getmenuinfo": ResponseData & { data: MenuItem | null };
+  "/editmenuinfo": ResponseData;
+  "/getvisitordata": ResponseData;
+  [key: string]:
+    | ResponseData
+    | MenuList
+    | PowerApi
+    | LoginApi
+    | MenuInfoApi
+    | MenuResponse;
+};
 
 const userInfoList = [
   {
@@ -263,7 +279,13 @@ const userInfo = {
   msg: "登录成功",
   status: 0,
   token: "12323",
-  data: { user_id: 1, username: "超级管理员", account: "admin", type: "0", isLogin: true },
+  data: {
+    user_id: 1,
+    username: "超级管理员",
+    account: "admin",
+    type: "0",
+    isLogin: true,
+  },
 };
 
 const addMenu = {
@@ -340,20 +362,24 @@ const MockData: MockDataType = {
   "/addmessage": addMsg,
   "/getmessage": msg,
   "/delmenu": delMenu,
-  "/getmenuinfo": { status: 0, msg: '', data: null },
+  "/getmenuinfo": { status: 0, msg: "", data: null },
   "/editmenuinfo": { status: 0, msg: "修改成功！" },
   "/getvisitordata": { status: 1, msg: "暂无" },
 };
-type UrlType = keyof MockDataType
+type UrlType = keyof MockDataType;
 function get(url: UrlType) {
   return new Promise((res) => {
     setTimeout(() => {
       if (url === "/getmenu") {
         let typeId = currentUser.t_id;
         if (typeId) {
-          let action: string | undefined | number[] = typeList.find((i) => i.type_id === typeId)?.menu_id;
+          let action: string | undefined | number[] = typeList.find(
+            (i) => i.type_id === typeId
+          )?.menu_id;
           action = action ? action.split(",").map(Number) : [];
-          let menuList = menu.filter((i) => (action as number[]).includes(i.menu_id));
+          let menuList = menu.filter((i) =>
+            (action as number[]).includes(i.menu_id)
+          );
           MockData[url] = formatMenu(menuList);
         }
         res(MockData[url]);
@@ -364,15 +390,13 @@ function get(url: UrlType) {
     }, 500);
   }).then((res) => {
     if (res) {
-      return res
+      return res;
     } else {
-      message.error("接口暂未配置")
-      return Promise.reject("接口暂未配置")
+      message.error("接口暂未配置");
+      return Promise.reject("接口暂未配置");
     }
   });
 }
-
-
 
 function post(url: UrlType, data: any) {
   return new Promise((res, rej) => {
@@ -439,14 +463,13 @@ function post(url: UrlType, data: any) {
     }, 100);
   }).then((res: any) => {
     if (res.status === 0) {
-      return res
+      return res;
     } else {
-      message.error("接口暂未配置")
-      return Promise.reject("接口暂未配置")
+      message.error("接口暂未配置");
+      return Promise.reject("接口暂未配置");
     }
   });
 }
-
 
 const mock = { get, post };
 

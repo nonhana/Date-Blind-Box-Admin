@@ -5,12 +5,15 @@ import React from "react";
 const Error = loadable(() => import("@pages/err"));
 
 export interface RouterInfo {
-  components: LoadableComponent<any> | React.ReactElement | React.ComponentClass<any>
-  [MENU_PATH]: string
-  [MENU_KEY]?: any
-  [MENU_TITLE]?: string | any
-  [MENU_KEEPALIVE]?: string | any
-  [name: string]: any
+  components:
+    | LoadableComponent<any>
+    | React.ReactElement
+    | React.ComponentClass<any>;
+  [MENU_PATH]: string;
+  [MENU_KEY]?: any;
+  [MENU_TITLE]?: string | any;
+  [MENU_KEEPALIVE]?: string | any;
+  [name: string]: any;
 }
 
 const defaultArr: RouterInfo[] = [
@@ -47,7 +50,9 @@ const defaultArr: RouterInfo[] = [
   },
 ];
 
-const list: RouterInfo[] = auto.map((c: any) => ({ ...c, components: loadable(c.components) }) as RouterInfo);
+const list: RouterInfo[] = auto.map(
+  (c: any) => ({ ...c, components: loadable(c.components) } as RouterInfo)
+);
 
 list.push(...defaultArr);
 

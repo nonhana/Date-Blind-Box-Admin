@@ -1,0 +1,24 @@
+.search-container,
+.card-container {
+  padding: 20px;
+}
+.card-container .icon svg {
+  width: 30px;
+  height: 30px;
+}
+.card-container .add-wapper {
+  text-align: center;
+}
+.card-container .add-wapper svg {
+  width: 125px;
+  height: 125px;
+}
+.search-container {
+  padding: 20px;
+}
+.search-container .top-form {
+  padding-bottom: 20px;
+}
+.search-container .top-form .submit-btn {
+  margin-right: 10px;
+}

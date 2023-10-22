@@ -1,53 +1,77 @@
 import { useState } from "react";
-import { Form, Input, Modal, Button, Row, Col, Spin, message } from "antd";
+import { Form, Input, Button, Row, Col, Spin, message, Modal } from "antd";
 import MyPagination, { PageInfo } from "@/components/pagination";
-import { getMsg, addMsg } from "@/api";
+import { blindBoxGetUserList, blindBoxDelUser } from "@/api";
 import MyTable from "@/components/table";
 import "./index.less";
-import { MessageList, MapKey } from "@/types";
+import { formatDate } from "@/utils";
+import { BlindBoxUserItem, MapKey } from "@/types";
 
 export default function SearchPage() {
-  const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
   const [pageData, setPageData] = useState<PageInfo>({ page: 1 });
-  const [tableData, setData] = useState<MessageList>([]);
+  const [tableData, setData] = useState<BlindBoxUserItem[]>([]);
   const [tableCol, setCol] = useState<MapKey>([]);
   const [load, setLoad] = useState(true);
   const [total, setTotal] = useState(0);
-  const [showModal, setShow] = useState(false);
 
   // 获取列表
   const getDataList = (data: PageInfo) => {
-    getMsg(data).then((res) => {
+    blindBoxGetUserList(data).then((res) => {
       const { data, status } = res;
       if (status === 0 && data) {
         let { list, total, mapKey } = data;
-        mapKey = mapKey.map((i) => {
-          if (i.key === "description") {
-            i.width = 500;
-          }
-          return i;
+        mapKey = mapKey.filter((i) => {
+          return i.key !== "user_avatar" && i.key !== "user_background_img";
         });
+        // 添加功能列
+        const actionColumn = {
+          title: "操作",
+          dataIndex: "action",
+          key: "action",
+          render: (_: string, record: BlindBoxUserItem) => (
+            <span>
+              <Button type="ghost" onClick={() => deleteRecord(record)}>
+                删除
+              </Button>
+            </span>
+          ),
+        };
+        mapKey.push(actionColumn);
+
+        // 把用户头像和用户背景图去掉
         setCol(mapKey);
         setTotal(total);
-        setData(list.map((i) => ({ ...i, key: i.m_id })));
+        setData(
+          list.map((i) => ({
+            ...i,
+            key: i.user_id,
+            createdAt: formatDate(i.createdAt),
+            updatedAt: formatDate(i.updatedAt),
+          }))
+        );
         setLoad(false);
         return;
       }
     });
   };
 
-  // 添加列表
-  const addList = () => {
-    form.validateFields().then((values) => {
-      addMsg(values).then((res) => {
-        if (res.status === 0) {
-          form.resetFields();
-          message.success(res.msg);
-          setShow(false);
-          search();
-        }
-      });
+  // 删除记录的函数
+  const deleteRecord = (record: BlindBoxUserItem) => {
+    console.log(record);
+    Modal.confirm({
+      title: "确认删除?",
+      content: "你确定要删除这条记录吗？",
+      okText: "确认",
+      cancelText: "取消",
+      onOk: () => {
+        blindBoxDelUser({ user_id: record.user_id }).then((res) => {
+          if (res.status === 0) {
+            message.success(res.msg);
+            search();
+          }
+        });
+      },
     });
   };
 
@@ -68,11 +92,6 @@ export default function SearchPage() {
   const tableTop = (
     <Row justify="space-between" gutter={80}>
       <Col style={{ lineHeight: "32px" }}>表格查询</Col>
-      <Col>
-        <Button type="primary" onClick={() => setShow(true)}>
-          添加消息
-        </Button>
-      </Col>
     </Row>
   );
   return (
@@ -81,10 +100,7 @@ export default function SearchPage() {
         <div className="top-form">
           <Form layout="inline" form={searchForm}>
             <Form.Item name="name">
-              <Input placeholder="输入消息名称" />
-            </Form.Item>
-            <Form.Item name="description">
-              <Input placeholder="输入消息描述词" />
+              <Input placeholder="输入用户名称" />
             </Form.Item>
             <Button onClick={search} type="primary" className="submit-btn">
               搜索
@@ -113,48 +129,9 @@ export default function SearchPage() {
           total={total}
         />
       </Spin>
-      <Modal
-        title="添加一条记录"
-        visible={showModal}
-        cancelText="取消"
-        okText="添加"
-        onOk={() => addList()}
-        onCancel={() => setShow(false)}
-      >
-        <Form form={form}>
-          <Form.Item
-            label="消息名称"
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Please input your name!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="消息描述"
-            name="description"
-            rules={[
-              {
-                required: true,
-                message: "Please input your description!",
-              },
-              {
-                min: 10,
-                message: "The description must be more than 10 words!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
     </div>
   );
 }
 SearchPage.route = {
-  [MENU_PATH]: "/list/search",
+  [MENU_PATH]: "/list/user-list",
 };

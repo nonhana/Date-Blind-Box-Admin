@@ -4,10 +4,8 @@ import MyIcon from "@/components/icon";
 import { reduceMenuList } from "@/utils";
 import { Breadcrumb } from "antd";
 import { getMenus } from "@/common";
-import { MenuItem, MenuList } from "@/types"
+import { MenuItem, MenuList } from "@/types";
 import { useStateSelectMenuKey } from "@/store/hooks";
-
-
 
 function getParent(list: MenuList, parentKey: string): MenuItem | undefined {
   return list.find((i) => i.key === parentKey);
@@ -28,10 +26,10 @@ async function getBreadArray(ckey: string) {
   return arr;
 }
 
-
 export default function TopMenu() {
   const [breadArr, setBread] = useState<Array<MenuItem>>([]);
-  const selectMenuKey = useStateSelectMenuKey()
+  const selectMenuKey = useStateSelectMenuKey();
+
   useEffect(() => {
     async function get() {
       let data = await getBreadArray(selectMenuKey[0]);
@@ -39,7 +37,6 @@ export default function TopMenu() {
     }
     get();
   }, [selectMenuKey]);
-
 
   return (
     <div className="top-menu-wrapper">

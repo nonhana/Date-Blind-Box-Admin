@@ -1,10 +1,11 @@
 import { getLocalMenu, saveLocalMenu } from "../utils";
 import { getMenu } from "@/api";
-import { MenuResponse } from "@/types"
-let currentJob: Promise<MenuResponse> | null
+import { MenuResponse } from "@/types";
+let currentJob: Promise<MenuResponse> | null;
+
 export function getMenus() {
   if (currentJob) {
-    return currentJob
+    return currentJob;
   }
   const job: Promise<MenuResponse> = new Promise((reslove) => {
     let localMenu = getLocalMenu();
@@ -20,7 +21,9 @@ export function getMenus() {
         reslove([]);
       });
   });
-  currentJob = job
-  job.finally(() => { currentJob = null })
-  return job
+  currentJob = job;
+  job.finally(() => {
+    currentJob = null;
+  });
+  return job;
 }

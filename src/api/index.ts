@@ -12,6 +12,10 @@ import {
   VisitorListApi,
   MenuResponse,
   MenuListResponse,
+  BlindBoxUserInfo,
+  BlindBoxBoxInfo,
+  BlindBoxWallInfo,
+  BlindBoxUniversityInfo,
 } from "@/types";
 
 const request = process.env.REACT_APP_MOCK === "1" ? mock : ajax;
@@ -51,6 +55,39 @@ const editType = (data: any) =>
   request.post("/edittype", data) as Promise<ResponseData>;
 const addType = (data: any) =>
   request.post("/addtype", data) as Promise<ResponseData>;
+/* 以下是新增的API */
+// 1. 用户相关
+const blindBoxGetUserList = (data: any) =>
+  request.get("/blind-box-get-user-list", data) as Promise<BlindBoxUserInfo>;
+const blindBoxDelUser = (data: any) =>
+  request.post("/blind-box-del-user", data) as Promise<ResponseData>;
+// 2. 盲盒相关
+const blindBoxGetBoxList = (data: any) =>
+  request.get("/blind-box-get-box-list", data) as Promise<BlindBoxBoxInfo>;
+const blindBoxDelBox = (data: any) =>
+  request.post("/blind-box-del-box", data) as Promise<ResponseData>;
+// 3. 表白墙相关
+const blindBoxGetWallList = (data: any) =>
+  request.get("/blind-box-get-wall-list", data) as Promise<BlindBoxWallInfo>;
+const blindBoxAddWall = (data: any) =>
+  request.post("/blind-box-add-wall", data) as Promise<ResponseData>;
+const blindBoxEditWall = (data: any) =>
+  request.post("/blind-box-edit-wall", data) as Promise<ResponseData>;
+const blindBoxDelWall = (data: any) =>
+  request.post("/blind-box-del-wall", data) as Promise<ResponseData>;
+// 4. 大学相关
+const blindBoxGetUniversityList = (data: any) =>
+  request.get(
+    "/blind-box-get-university-list",
+    data
+  ) as Promise<BlindBoxUniversityInfo>;
+const blindBoxAddUniversity = (data: any) =>
+  request.post("/blind-box-add-university", data) as Promise<ResponseData>;
+const blindBoxEditUniversity = (data: any) =>
+  request.post("/blind-box-edit-university", data) as Promise<ResponseData>;
+const blindBoxDelUniversity = (data: any) =>
+  request.post("/blind-box-del-university", data) as Promise<ResponseData>;
+
 export {
   getMenu,
   login,
@@ -70,4 +107,16 @@ export {
   editType,
   addType,
   getMenuList,
+  blindBoxGetUserList,
+  blindBoxDelUser,
+  blindBoxGetBoxList,
+  blindBoxDelBox,
+  blindBoxGetWallList,
+  blindBoxAddWall,
+  blindBoxEditWall,
+  blindBoxDelWall,
+  blindBoxGetUniversityList,
+  blindBoxAddUniversity,
+  blindBoxEditUniversity,
+  blindBoxDelUniversity,
 };
