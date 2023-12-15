@@ -162,7 +162,7 @@ export default function SearchPage() {
 
   // 页码改版
   const pageChange = (pageData: PageInfo) => {
-    let data = searchForm.getFieldsValue();
+    const data = searchForm.getFieldsValue();
     getDataList({ ...pageData, ...data });
     setPageData(pageData);
   };
@@ -177,6 +177,7 @@ export default function SearchPage() {
       </Col>
     </Row>
   );
+
   return (
     <div className="search-container">
       <Spin spinning={load}>
@@ -255,6 +256,7 @@ export default function SearchPage() {
     </div>
   );
 }
+
 SearchPage.route = {
   [MENU_PATH]: "/list/wall-list",
 };

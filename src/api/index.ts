@@ -55,7 +55,7 @@ const editType = (data: any) =>
   request.post("/edittype", data) as Promise<ResponseData>;
 const addType = (data: any) =>
   request.post("/addtype", data) as Promise<ResponseData>;
-/* 以下是新增的API */
+/* ----------以下是新增的API---------- */
 // 1. 用户相关
 const blindBoxGetUserList = (data: any) =>
   request.get("/blind-box-get-user-list", data) as Promise<BlindBoxUserInfo>;

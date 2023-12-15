@@ -2,8 +2,10 @@
   "name": "react-ant-admin-ts",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@babel/core": "7.13.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
     "@testing-library/jest-dom": "^5.11.4",
@@ -80,7 +82,8 @@
     "start:mock_color": "env-cmd --verbose -e development_color_mock node color && env-cmd --verbose -e development_color_mock node scripts/start.js",
     "build": "node color && env-cmd --verbose -e production node scripts/build.js",
     "build:color": "env-cmd --verbose -e production_color node color && env-cmd --verbose -e production_color node scripts/build.js",
-    "build:github-pages": "env-cmd --verbose -e production_github node color && env-cmd --verbose -e production_github node scripts/build.js"
+    "build:github-pages": "env-cmd --verbose -e production_github node color && env-cmd --verbose -e production_github node scripts/build.js",
+    "deploy": "gh-pages -d react-ant-admin"
   },
   "eslintConfig": {
     "extends": [
@@ -196,6 +199,7 @@
     "echarts": "^5.1.2",
     "echarts-for-react": "^3.0.1",
     "env-cmd": "^10.1.0",
+    "gh-pages": "^6.1.0",
     "http-proxy-middleware": "^2.0.1",
     "less": "^3.1.1",
     "less-loader": "^5.0.0",

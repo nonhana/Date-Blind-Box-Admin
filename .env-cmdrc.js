@@ -3,7 +3,8 @@ const devConfig = {
   HOST: "0.0.0.0", // 监听地址
   NODE_ENV: "development", // 开发者模式
   REACT_APP_ROUTERBASE: "/react-ant-admin", // react路由基础路径
-  REACT_APP_API_BASEURL: "http://127.0.0.1:8081/api/react-ant-admin", //请求地址
+  // REACT_APP_API_BASEURL: "http://127.0.0.1:8081/api/react-ant-admin", // 本地服务地址
+  REACT_APP_API_BASEURL: "http://www.nonhana.site:4040/api/react-ant-admin", // 线上地址
   PUBLIC_URL: "/react-ant-admin", // 静态文件路径
 };
 const productionCfg = {
