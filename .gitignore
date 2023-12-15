@@ -13,7 +13,6 @@ package-lock.json
 /src/router/auto**
 
 # production
-/react-ant-admin
 /public/color.less
 # misc
 .DS_Store
